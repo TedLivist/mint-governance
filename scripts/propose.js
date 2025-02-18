@@ -11,17 +11,17 @@ async function main() {
   // propose vote
   // The proposal is to mint token and send to self(deployer)
   // grab the proposalId so you can vote on it
-  // const propose = await governor.propose(
-  //   [token.target],
-  //   [0],
-  //   [token.interface.encodeFunctionData("mint", [deployer, parseEther("25000")])],
-  //   "Give the deployer more tokens!!"
-  // )
-  // console.log(propose)
-  // const receipt = await propose.wait()
-  // const proposalCreatedEvent = governor.interface.parseLog(receipt.logs[0])
-  // const proposalId = proposalCreatedEvent.args.proposalId
-  // console.log(proposalId)
+  const propose = await governor.propose(
+    [token.target],
+    [0],
+    [token.interface.encodeFunctionData("mint", [deployer, parseEther("25000")])],
+    "Give the deployer more tokens!!"
+  )
+  
+  const receipt = await propose.wait()
+  const proposalCreatedEvent = governor.interface.parseLog(receipt.logs[0])
+  const proposalId = proposalCreatedEvent.args.proposalId
+  console.log(proposalId)
   
   // You can simply forget all these
   // and simply check the startBlock and endBlock parameters
@@ -40,12 +40,6 @@ async function main() {
   //   await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait 5 seconds before checking again
   // }
   // console.log(`Reached target block ${targetBlock}`);
-
-  // vote on the proposal
-  // const proposalId = 46543598159398528729813543565880199374653492480273371489885520881279096770335n
-
-  // const vote = await governor.castVote(proposalId, 1)
-  // console.log(vote)
 }
 
 main().catch((error) => {
